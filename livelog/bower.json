@@ -1,0 +1,22 @@
+{
+  "name": "livelog",
+  "homepage": "https://github.com/dlmorais-13/livelog",
+  "authors": [
+    "Daniel Lemos de Morais <daniel.lemos.morais@gmail.com>"
+  ],
+  "description": "LiveLog - Log viewer for JEE webapps using web-fragments.",
+  "main": "",
+  "license": "APACHE 2.0",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.5.5",
+    "bootstrap": "^3.3.6"
+  }
+}

@@ -1,0 +1,57 @@
+/* #110f12	(17,15,18) */
+/* #181e36	(24,30,54) */
+/* #481952	(72,25,82) */
+/* #ac7ee0	(172,126,224) */
+/* #4755aa	(71,85,170) */
+
+.livelog-navigation {
+	position: fixed;
+	background-color: #110f12;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 200px;
+	border-right: 1px solid #4755aa;
+}
+
+.livelog-analysis {
+	position: fixed;
+	background-color: #110f12;
+	bottom: 0px;
+	right: 0px;
+	left: 200px;
+	height: 50px;
+	border-top: 1px solid #4755aa;
+}
+
+.livelog-content {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	left: 200px;
+	bottom: 50px;
+	background: #110f12;
+}
+
+.livelog-search {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	width: 200px;
+	height: 36px;
+	background-color: white;
+	border: solid #4755aa;
+	border-width: 0px 0px 2px 2px;
+	border-radius: 0px 0px 0px 10px;
+}
+
+.livelog-search .btn {
+	position: fixed;
+	top: 7px;
+	right: 210px;
+}
+
+.livelog-search input {
+	background-color: transparent;
+	border: 0px;
+}
