@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="col-xs-4 livelog-header-filename">
+		<span ng-if="llapi.selected">{{llapi.selected}}</span>
+		<span ng-if="!llapi.selected" class="text-muted">no file selected</span>
+	</div>
+	
+	<div class="col-xs-8 text-right">
+		<button type="button" class="btn btn-success btn-xs" ng-model="llapi.polling" uib-btn-checkbox>
+			<span ng-if="llapi.polling">Stop polling</span>
+			<span ng-if="!llapi.polling">Start polling</span>
+		</button>
+		
+		<button type="button" class="btn btn-warning btn-xs" ng-model="$root.scrollLock" uib-btn-checkbox>
+			<span ng-if="!$root.scrollLock">Lock scroll</span>
+			<span ng-if="$root.scrollLock">Unlock scroll</span>
+		</button>
+	</div>
+</div>

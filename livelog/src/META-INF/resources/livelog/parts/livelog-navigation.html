@@ -1,0 +1,9 @@
+<div>
+	<div class="list-group">
+		<a class="btn btn-link disabled">Available log files</a>
+		<a class="btn btn-link" ng-repeat="file in llapi.files"
+			ng-click="llapi.openFile(file)">
+			{{file}}
+		</a>
+	</div>
+</div>
