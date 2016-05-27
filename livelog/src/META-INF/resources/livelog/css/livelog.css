@@ -24,16 +24,42 @@
 	border-top: 1px solid #4755aa;
 }
 
+.livelog-header {
+	position: fixed;
+	background-color: #110f12;
+	top: 0px;
+	right: 0px;
+	left: 200px;
+	height: 35px;
+	border-bottom: 1px solid #4755aa;
+	padding: 6px 15px;
+}
+
+.livelog-header .livelog-header-filename {
+	color: #ac7ee0;
+}
+
 .livelog-content {
 	position: fixed;
-	top: 0px;
+	top: 35px;
 	right: 0px;
 	left: 200px;
 	bottom: 50px;
 	background: #110f12;
+	overflow-y: scroll;
+	overflow-x: auto;
+	padding: 0px 15px;
+	color: white;
+}
+
+.livelog-content .col-xs-1 {
+	background-color: #181e36;
+	border-right: 1px solid #4755aa;
+	text-align: right;
 }
 
 .livelog-search {
+	display: none;
 	position: fixed;
 	top: 0px;
 	right: 0px;
