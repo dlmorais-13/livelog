@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -27,12 +30,35 @@ public class LogGeneratorListener implements ServletContextListener {
 				try {
 					File log = new File("C:/Users/danie/Programs/apache-tomcat-8.0.35/logs/Teste.log");
 					
+					final String format = "\n%s - %s - %s :: %s";
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					String logLine = null;
+					
+					List<String> pseudoClass = Arrays.asList("foo.bar.ClassA", "com.dlmorais.ClassB", "com.jepslon.ClassC");
+					List<String> levels = Arrays.asList("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL", "FATAL");
+					
+					List<String> contents = Arrays.asList(
+							"Mussum Ipsum, cacilds vidis litro abertis.",
+							"Admodum accumsan disputationi eu sit.",
+							"Vide electram sadipscing et per.",
+							"Leite de capivaris, leite de mula manquis.",
+							"Viva Forevis aptent taciti sociosqu ad litora torquent Nao sou faixa preta cumpadi, sou preto inteiris, inteiris.");
+					
 					while (true) {
-						IOUtils.write(("\n"+Calendar.getInstance().getTime().toLocaleString()).getBytes(), new FileOutputStream(log, true));
-						Thread.sleep(2000);
+						Collections.shuffle(pseudoClass);
+						Collections.shuffle(levels);
+						Collections.shuffle(contents);
+						
+						logLine = String.format(format, 
+								sdf.format(Calendar.getInstance().getTime()),
+								pseudoClass.get(0),
+								levels.get(0),
+								contents.get(0));
+						
+						IOUtils.write(logLine.getBytes(), new FileOutputStream(log, true));
+						Thread.sleep(1000);
 					}
 				} catch (IOException | InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

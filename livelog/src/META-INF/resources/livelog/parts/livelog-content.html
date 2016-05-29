@@ -1,4 +1,6 @@
-<div class="row" ng-repeat="line in llapi.log track by $index">
-	<div class="col-xs-1">{{line.line}}</div>
-	<div class="col-xs-11">{{line.content}}</div>
-</div>
+<md-virtual-repeat-container id="mdVerticalContainer">
+	<div class="row" md-virtual-repeat="line in llapi.log">
+		<div class="col-xs-1">{{line.line}}</div>
+		<div class="col-xs-11">{{line.content}}</div>
+	</div>
+</md-virtual-repeat-container>

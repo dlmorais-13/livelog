@@ -35,18 +35,19 @@ public class TailerAPI {
 			if (fromLine != null) {
 				startLine = fromLine - 1;
 			} else {
-				startLine = lines.parallel().mapToLong(l -> 1L).sum() - numLines;
+//				startLine = lines.parallel().mapToLong(l -> 1L).sum() - numLines;
+				startLine = lines.count() - numLines;
 				lines.close();
 				lines = Files.lines(Paths.get(LiveLogConfig.getLogDir() + file));
 			}
 			
-			lines.skip(startLine).forEach(l -> {
+			long line = Math.max(startLine, 0);
+			lines.skip(line).forEach(l -> {
 				LogLineDTO dto = new LogLineDTO();
 				dto.setContent(l);
 				content.add(dto);
 			});
 			
-			long line = startLine;
 			for (LogLineDTO logLineDTO : content) {
 				logLineDTO.setLine(++line);
 			}

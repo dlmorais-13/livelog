@@ -1,4 +1,4 @@
-var livelog = angular.module('livelog', ['ngAnimate', 'ui.bootstrap']);
+var livelog = angular.module('livelog', ['ngAnimate', 'ui.bootstrap', 'ngMaterial']);
 
 livelog.factory('ll.api', [
     '$http', '$window', '$timeout',
@@ -65,7 +65,7 @@ livelog.run([
 		
 		$rootScope.scrollLock = false;
 		$interval(function() {
-			$rootScope.scrollLock || $('.livelog-content').animate({ scrollTop: Number.MAX_VALUE }, 0);
+			$rootScope.scrollLock || $('.livelog-content #mdVerticalContainer .md-virtual-repeat-scroller').animate({ scrollTop: Number.MAX_VALUE }, 0);
 		}, 100);
 		
 		$rootScope.keypress = function(e) {
