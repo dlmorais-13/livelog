@@ -15,7 +15,6 @@ import javax.servlet.annotation.WebListener;
 
 import org.apache.commons.io.IOUtils;
 
-@WebListener
 public class LogGeneratorListener implements ServletContextListener {
 
 	@Override

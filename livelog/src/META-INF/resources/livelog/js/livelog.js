@@ -62,20 +62,20 @@ livelog.factory('ll.api', [
 ]);
 
 livelog.controller('LivelogCtrl', [
-	'll.api', '$scope', '$interval', 
-	function(llapi, $scope, $interval) {
+	'll.api', '$rootScope', '$scope', '$interval', 
+	function(llapi, $rootScope, $scope, $interval) {
 		$scope.llapi = llapi;
 		llapi.listFiles();
 		
-		$scope.scrollLock = false;
+		$rootScope.scrollLock = false;
 		$interval(function() {
-			$scope.scrollLock || $('.livelog-content #mdVerticalContainer .md-virtual-repeat-scroller').animate({ scrollTop: Number.MAX_VALUE }, 0);
+			$rootScope.scrollLock || $('.livelog-content #mdVerticalContainer .md-virtual-repeat-scroller').animate({ scrollTop: Number.MAX_VALUE }, 0);
 		}, 100);
 		
-		$scope.keypress = function(e) {
+		$rootScope.keypress = function(e) {
 			var key = e.which || e.keyCode;
 			if (key == 145) {
-				$scope.scrollLock = !$scope.scrollLock;
+				$rootScope.scrollLock = !$rootScope.scrollLock;
 			}
 		};
 	}
