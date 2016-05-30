@@ -35,8 +35,7 @@ public class TailerAPI {
 			if (fromLine != null) {
 				startLine = fromLine - 1;
 			} else {
-//				startLine = lines.parallel().mapToLong(l -> 1L).sum() - numLines;
-				startLine = lines.count() - numLines;
+				startLine = lines.parallel().mapToLong(l -> 1L).sum() - numLines;
 				lines.close();
 				lines = Files.lines(Paths.get(LiveLogConfig.getLogDir() + file));
 			}

@@ -23,7 +23,7 @@
 		<!-- LiveLog -->
 		<link href="css/livelog.css" rel="stylesheet">
 	</head>
-	<body ng-app="livelog" ng-keydown="$root.keypress($event)">
+	<body ng-app="livelog" ng-keydown="$root.keypress($event)" ng-controller="LivelogCtrl">
 	    <div class="livelog-navigation">
 	    	<ng-include src="'parts/livelog-navigation.html'"></ng-include>
 	    </div>

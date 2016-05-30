@@ -1,6 +1,10 @@
 <div class="row">
 	<div class="col-xs-4 livelog-header-filename">
-		<span ng-if="llapi.selected">{{llapi.selected}}</span>
+		<span ng-if="llapi.selected">
+			{{llapi.selected}}
+			<a class="glyphicon glyphicon-download" style="color: white;"
+				href="{{llapi.download()}}" target="_blank"></a>
+		</span>
 		<span ng-if="!llapi.selected" class="text-muted">no file selected</span>
 	</div>
 	

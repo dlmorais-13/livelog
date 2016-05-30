@@ -31,6 +31,10 @@ livelog.factory('ll.api', [
     			service.tail();
     		},
     		
+    		download: function() {
+    			return service.baseUrl + 'api/download?f=' + service.selected;
+    		},
+    		
     		tail: function() {
     			if (service.polling) {
     				$http({ 
@@ -57,21 +61,21 @@ livelog.factory('ll.api', [
 	}
 ]);
 
-livelog.run([
-	'll.api', '$rootScope', '$interval',
-	function(llapi, $rootScope, $interval) {
-		$rootScope.llapi = llapi;
+livelog.controller('LivelogCtrl', [
+	'll.api', '$scope', '$interval', 
+	function(llapi, $scope, $interval) {
+		$scope.llapi = llapi;
 		llapi.listFiles();
 		
-		$rootScope.scrollLock = false;
+		$scope.scrollLock = false;
 		$interval(function() {
-			$rootScope.scrollLock || $('.livelog-content #mdVerticalContainer .md-virtual-repeat-scroller').animate({ scrollTop: Number.MAX_VALUE }, 0);
+			$scope.scrollLock || $('.livelog-content #mdVerticalContainer .md-virtual-repeat-scroller').animate({ scrollTop: Number.MAX_VALUE }, 0);
 		}, 100);
 		
-		$rootScope.keypress = function(e) {
+		$scope.keypress = function(e) {
 			var key = e.which || e.keyCode;
 			if (key == 145) {
-				$rootScope.scrollLock = !$rootScope.scrollLock;
+				$scope.scrollLock = !$scope.scrollLock;
 			}
 		};
 	}
