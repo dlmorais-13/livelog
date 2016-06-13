@@ -15,6 +15,13 @@ import javax.servlet.annotation.WebListener;
 
 import org.apache.commons.io.IOUtils;
 
+import com.dlmorais.livelog.LiveLogConfig;
+
+/**
+ * Listener to generate the log file.
+ * 
+ * @author dlmorais (daniel.lemos.morais@gmail.com)
+ */
 @WebListener
 public class LogGeneratorListener implements ServletContextListener {
 
@@ -28,7 +35,7 @@ public class LogGeneratorListener implements ServletContextListener {
 			@Override
 			public void run() {
 				try {
-					File log = new File("C:/Users/danie/Programs/apache-tomcat-8.0.35/logs/Teste.log");
+					File log = new File(LiveLogConfig.getLogDir() + "livelog-sample.log");
 					
 					final String format = "\n%s - %s - %s :: %s";
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

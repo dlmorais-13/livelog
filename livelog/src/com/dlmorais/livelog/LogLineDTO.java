@@ -5,12 +5,20 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
+/**
+ * DTO of a log line.
+ *
+ * @author dlmorais (daniel.lemos.morais@gmail.com)
+ */
 public class LogLineDTO {
 
+	/** Line number. */
 	private Long line;
-	
+
+	/** Line content. */
 	private String content;
 
+	/** Line date. */
 	@JsonFormat(shape = Shape.NUMBER)
 	private Date date;
 
@@ -18,13 +26,14 @@ public class LogLineDTO {
 	 * @return the line
 	 */
 	public Long getLine() {
-		return line;
+		return this.line;
 	}
 
 	/**
-	 * @param line2 the line to set
+	 * @param line
+	 *            the line to set
 	 */
-	public void setLine(Long line) {
+	public void setLine(final Long line) {
 		this.line = line;
 	}
 
@@ -32,13 +41,14 @@ public class LogLineDTO {
 	 * @return the content
 	 */
 	public String getContent() {
-		return content;
+		return this.content;
 	}
 
 	/**
-	 * @param content the content to set
+	 * @param content
+	 *            the content to set
 	 */
-	public void setContent(String content) {
+	public void setContent(final String content) {
 		this.content = content;
 	}
 
@@ -46,16 +56,15 @@ public class LogLineDTO {
 	 * @return the date
 	 */
 	public Date getDate() {
-		return date;
+		return this.date;
 	}
 
 	/**
-	 * @param date the date to set
+	 * @param date
+	 *            the date to set
 	 */
-	public void setDate(Date date) {
+	public void setDate(final Date date) {
 		this.date = date;
 	}
-	
-	
-	
+
 }

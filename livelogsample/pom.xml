@@ -1,21 +1,27 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.dlmorais</groupId>
-  <artifactId>livelogsample</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <name>LiveLog Sample WebAPP</name>
-  <dependencies>
-  	<dependency>
-  		<groupId>com.dlmorais</groupId>
-  		<artifactId>livelog</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-    <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.dlmorais</groupId>
+	<artifactId>livelogsample</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>LiveLog Sample WebAPP</name>
+	<dependencies>
+
+		<!-- LiveLog dependency -->
+		<dependency>
+			<!-- Only by loading, the livelog will be available at /livelog. -->
+			<groupId>com.dlmorais</groupId>
+			<artifactId>livelog</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- /LiveLog dependency -->
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

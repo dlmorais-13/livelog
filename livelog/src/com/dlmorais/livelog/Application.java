@@ -4,11 +4,20 @@ import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.jersey.server.ResourceConfig;
 
+/**
+ * Jersey application configuration. <br>
+ * Only loads this package to configure the APIs.
+ *
+ * @author dlmorais (daniel.lemos.morais@gmail.com)
+ */
 @ApplicationPath("/livelog/api/*")
 public class Application extends ResourceConfig {
 
+	/**
+	 * Class constructor loading the package of this class.
+	 */
 	public Application() {
-		this.packages("com.dlmorais.livelog");
+		this.packages(this.getClass().getPackage().getName());
 	}
-	
+
 }

@@ -9,9 +9,12 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
+	<!-- LiveLog configurations. -->
 	<env-entry>
+		<description>Defines the log files directory</description>
 		<env-entry-name>livelog-logdir</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>${catalina.home}/logs/</env-entry-value>
 	</env-entry>
+	<!-- /LiveLog configurations. -->
 </web-app>
