@@ -6,12 +6,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.LongAdder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -23,6 +29,10 @@ import javax.ws.rs.core.Response;
 @Path("/tail")
 @Produces(MediaType.APPLICATION_JSON)
 public class TailerAPI {
+
+	/** Injected request to store data to the session. */
+	@Context
+	private HttpServletRequest request;
 
 	/**
 	 * Tails the file with name <code>file</code>. <br>
@@ -50,7 +60,8 @@ public class TailerAPI {
 	public Response get(@QueryParam("f") final String file, @QueryParam("l") final Integer fromLine,
 			@QueryParam("n") final Integer numberOfLines) throws IOException {
 
-		final List<LogLineDTO> content = new ArrayList<>();
+		this.defineCurrentFile(file);
+
 		Stream<String> lines = null;
 		try {
 			// Get all the lines from log into a stream.
@@ -61,44 +72,84 @@ public class TailerAPI {
 			// If passed as parameter, uses it.
 			if (fromLine != null) {
 				startLine = fromLine - 1;
-			} else {
-				// Uses the end of the file minus the number of lines otherwise.
-
-				// Number of lines to tail from end of file. Default 100.
-				final Integer numLines = Optional.ofNullable(numberOfLines).orElse(100);
-
-				startLine = lines.parallel().mapToLong(l -> 1L).sum() - numLines;
-
-				// It's necessary to reread the lines, as they are already
-				// streamed.
-				lines.close();
-				lines = Files.lines(Paths.get(LiveLogConfig.getLogDir() + file));
-
-				// TODO dlmorais - 13 de jun de 2016 - check if it is possible
-				// to evict reread the lines.
 			}
 
-			// Parse each line to a DTO and add to list.
-			long line = Math.max(startLine, 0);
-			lines.skip(line).forEach(l -> {
+			final List<LogLineDTO> content = new ArrayList<>();
+
+			// Number of lines to tail from end of file. Default 100.
+			final Integer numLines = Optional.ofNullable(numberOfLines).orElse(100);
+
+			final List<CustomGroupDTO> customGroupings = this.getGroupings();
+
+			final LongAdder adder = new LongAdder();
+			adder.add(startLine);
+
+			lines.skip(startLine).forEach(l -> {
+				// For each grouping, verify if the line matches the
+				// grouping and add a counter on it.
+				for (final CustomGroupDTO customGroupDTO : customGroupings) {
+					final Matcher matcher = Pattern.compile(customGroupDTO.getRegex()).matcher(l);
+					if (matcher.find()) {
+						customGroupDTO.increment();
+					}
+				}
+
+				adder.increment();
 				final LogLineDTO dto = new LogLineDTO();
+				dto.setLine(adder.sum());
 				dto.setContent(l);
+
+				// Adds the DTO do return list and removes the first if it is
+				// bigger than the maximum size.
 				content.add(dto);
+				if (content.size() > numLines) {
+					content.remove(0);
+				}
 			});
 
-			// Sets the line number of each DTO.
-			// TODO dlmorais - 13 de jun de 2016 - check if it is possible to
-			// avoid double loop.
-			for (final LogLineDTO logLineDTO : content) {
-				logLineDTO.setLine(++line);
-			}
+			return Response.ok(content).build();
+		} catch (final Exception e) {
+			System.err.println(e.getStackTrace());
+			return Response.noContent().build();
 		} finally {
 			if (lines != null) {
 				lines.close();
 			}
 		}
+	}
 
-		return Response.ok(content).build();
+	/**
+	 * Returns the custom groupings list from session. <br>
+	 * This method will initialize the list in the session, if not present.
+	 *
+	 * @return {@link List} of {@link CustomGroupDTO} from session.
+	 */
+	private List<CustomGroupDTO> getGroupings() {
+		final HttpSession session = this.request.getSession();
+		@SuppressWarnings("unchecked")
+		List<CustomGroupDTO> customGroupings = (List<CustomGroupDTO>) session.getAttribute("customGroupings");
+		if (customGroupings == null) {
+			customGroupings = LiveLogConfig.getCustomGroupings();
+			session.setAttribute("customGroupings", customGroupings);
+		}
+		return customGroupings;
+	}
+
+	/**
+	 * Defines the current opened file and reload the necessary data, if
+	 * changed.
+	 *
+	 * @param file
+	 *            name of the polled file.
+	 */
+	private void defineCurrentFile(final String file) {
+		final HttpSession session = this.request.getSession();
+		String currentFile = (String) session.getAttribute("livelog-currentfile");
+		if (currentFile == null || !currentFile.equals(file)) {
+			currentFile = file;
+			session.setAttribute("livelog-currentfile", currentFile);
+			session.removeAttribute("customGroupings");
+		}
 	}
 
 }

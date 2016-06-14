@@ -7,10 +7,18 @@ livelog.factory('ll.api', [
     	var service = {
     		baseUrl: $window.location.pathname,
 
+    		// Flag to disable polling manually.
+    		pollingEnabled: true,
+    		
     		// Controls if an async call to poll the log is in progress.
-    		polling: true,
+    		polling: false,
     		// Timeout to poll log file again.
     		pollingTimeout: false,
+    		
+    		// Controls if an async call to poll of groupings is in progress.
+    		reloadingGroupings: false,
+    		// Timeout to poll groupings again.
+    		reloadingGroupingsTimeout: false,
     		
     		// List of log files available.
     		files: [],
@@ -20,6 +28,12 @@ livelog.factory('ll.api', [
     		lastLine: undefined,
     		// Current file log content.
     		log: [],
+    		// Current applied filter to file list.
+    		listFilter: '',
+    		// Groupings enabled in web.xml.
+    		groupings: [],
+    		// Analytic data.
+    		analyticsData: false,
     		
     		// List the available log files.
     		listFiles: function() {
@@ -29,6 +43,29 @@ livelog.factory('ll.api', [
     			}).then(function(response) {
     				service.files = response.data;
     			});
+    		},
+    		
+    		// Function to filter the files to list.
+    		filterFiles: function(name) {
+    			return !!name.match(service.listFilter);
+    		},
+    		
+    		// Function to filter the files to list.
+    		filterContent: function(line) {
+    			return !!line.content.match(service.contentFilter)
+    				|| !!("" + line.line).match(service.contentFilter);
+    		},
+    		
+    		// Function that returns an object with line color, if it matches an grouping.
+    		// The first group matched will return.
+    		getLineStyle: function(line) {
+    			for (var g in service.groupings) {
+    				var grouping = service.groupings[g];
+    				if (!!line.content.match(grouping.regex)) {
+    					return { "color": grouping.color };
+    				}
+    			}
+    			return {};
     		},
     		
     		// Open a log file.
@@ -42,7 +79,35 @@ livelog.factory('ll.api', [
     			service.lastLine = undefined;
     			service.log = [];
     			service.selected = file;
-    			service.tail();
+    			service.groupings = [];
+    			
+    			$http({
+    				method: 'POST',
+    				url: service.baseUrl + 'api/grouping/reset'
+    			}).then(function() {
+    				service.tail();
+    			});
+    		},
+    		
+    		// Load the analytics data.
+    		loadAnalytics: function() {
+    			service.pollingEnabled = false;
+    			
+    			$http({ 
+					method: 'GET', 
+					url: service.baseUrl + 'api/analytics',
+					params: {
+						f: service.selected 
+					}
+				}).then(function(response) {
+					service.analyticsData = response.data;
+				});
+    		},
+    		
+    		// Closes the analytic data.
+    		closeAnalytics: function() {
+    			service.pollingEnabled = true;
+    			service.analyticsData = false;
     		},
     		
     		// Returns an URL to download the log file.
@@ -53,7 +118,8 @@ livelog.factory('ll.api', [
     		// Tails the log file.
     		tail: function() {
     			// Prevent double polling.
-    			if (service.polling) {
+    			if (!service.polling && service.pollingEnabled) {
+    				service.polling = true;
     				$http({ 
     					method: 'GET', 
     					url: service.baseUrl + 'api/tail',
@@ -63,15 +129,43 @@ livelog.factory('ll.api', [
     					}
     				}).then(function(response) {
     					// Pushes all lines to the log list.
-    					Array.prototype.push.apply(service.log, response.data);
+    					for (var i in response.data) {
+    						service.log.push(response.data[i]);
+    					}
+    					
     					// Redefines the last line.
     					service.lastLine = response.data.length ? _.last(response.data).line : service.lastLine; 
     					service.pollingTimeout = $timeout(service.tail, 1000);
+    					service.polling = false;
+    					
+    					if (response.data.length > 0) {
+    						service.reloadGroupings();
+    					}
     				}, function() {
     					service.pollingTimeout = $timeout(service.tail, 1000);
+    					service.polling = false;
     				});
     			} else {
     				service.pollingTimeout = $timeout(service.tail, 1000);
+    			}
+    		},
+    		
+    		// Reload the groupings from server.
+    		reloadGroupings: function() {
+    			if (!service.reloadingGroupings) {
+    				service.reloadingGroupings = true;
+    				$http({ 
+    					method: 'GET', 
+    					url: service.baseUrl + 'api/grouping'
+    				}).then(function(response) {
+    					service.groupings = response.data || [];
+    					service.reloadingGroupings = false;
+    				}, function() {
+    					service.reloadingGroupingsTimeout = $timeout(service.reloadGroupings, 1000);
+    					service.reloadingGroupings = false;
+    				});
+    			} else {
+    				service.reloadingGroupingsTimeout = $timeout(service.reloadGroupings, 1000);
     			}
     		}
     	};
@@ -87,6 +181,7 @@ livelog.controller('LivelogCtrl', [
 		$scope.llapi = llapi;
 		llapi.listFiles();
 		
+		window.llapi = llapi;
 		$rootScope.scrollLock = false;
 		$interval(function() {
 			$rootScope.scrollLock || $('.livelog-content #mdVerticalContainer .md-virtual-repeat-scroller').animate({ scrollTop: Number.MAX_VALUE }, 0);

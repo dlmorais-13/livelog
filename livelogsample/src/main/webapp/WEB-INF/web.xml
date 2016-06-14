@@ -16,5 +16,75 @@
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>${catalina.home}/logs/</env-entry-value>
 	</env-entry>
+    
+	<env-entry>
+		<description>Defines the log files content regex getter</description>
+		<env-entry-name>livelog-contentregex</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>^[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2} - (.*)$</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 1 name</description>
+		<env-entry-name>livelog-customgroup-1-name</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>Fatal / Critical</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 1 color</description>
+		<env-entry-name>livelog-customgroup-1-color</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>red</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 1 regex</description>
+		<env-entry-name>livelog-customgroup-1-regex</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>^.* - .* - (FATAL|CRITICAL) :: .*$</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 2 name</description>
+		<env-entry-name>livelog-customgroup-2-name</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>com.dlmorais.ClassB</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 2 color</description>
+		<env-entry-name>livelog-customgroup-2-color</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>yellow</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 2 regex</description>
+		<env-entry-name>livelog-customgroup-2-regex</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>^.* - com\.dlmorais\.ClassB - .*$</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 3 name</description>
+		<env-entry-name>livelog-customgroup-3-name</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>Warnings</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 3 color</description>
+		<env-entry-name>livelog-customgroup-3-color</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>orange</env-entry-value>
+	</env-entry>
+    
+	<env-entry>
+		<description>Defines the custom group 3 regex</description>
+		<env-entry-name>livelog-customgroup-3-regex</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>^.* - .* - (WARNING) :: .*$</env-entry-value>
+	</env-entry>
 	<!-- /LiveLog configurations. -->
 </web-app>

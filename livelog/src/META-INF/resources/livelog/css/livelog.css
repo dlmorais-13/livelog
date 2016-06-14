@@ -4,6 +4,10 @@
 /* #ac7ee0	(172,126,224) */
 /* #4755aa	(71,85,170) */
 
+a {
+	cursor: pointer;
+}
+
 .livelog-navigation {
 	position: fixed;
 	background-color: #110f12;
@@ -12,6 +16,18 @@
 	bottom: 0px;
 	width: 200px;
 	border-right: 1px solid #4755aa;
+	padding: 10px;
+}
+
+.livelog-navigation-title {
+	color: #ac7ee0;
+	text-align: center;
+}
+
+.livelog-navigation .list-group a {
+	width: 200px;
+	text-align: left;
+	word-break: break-all;
 }
 
 .livelog-analysis {
@@ -22,6 +38,7 @@
 	left: 200px;
 	height: 50px;
 	border-top: 1px solid #4755aa;
+	padding: 15px;
 }
 
 .livelog-header {
@@ -30,7 +47,7 @@
 	top: 0px;
 	right: 0px;
 	left: 200px;
-	height: 35px;
+	height: 43px;
 	border-bottom: 1px solid #4755aa;
 	padding: 6px 15px;
 }
@@ -39,9 +56,13 @@
 	color: #ac7ee0;
 }
 
+.livelog-header .livelog-header-filename h4 {
+	margin-top: 5px;
+}
+
 .livelog-content {
 	position: fixed;
-	top: 35px;
+	top: 43px;
 	right: 0px;
 	left: 200px;
 	bottom: 50px;
@@ -56,7 +77,8 @@
 	text-align: right;
 }
 
-.livelog-content #mdVerticalContainer {
+.livelog-content #mdVerticalContainer,
+.livelog-content #mdVerticalContainerAnalytics {
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
@@ -87,4 +109,29 @@
 .livelog-search input {
 	background-color: transparent;
 	border: 0px;
+}
+
+.livelog-grouping {
+	cursor: pointer;
+}
+
+.livelog-grouping-count {
+	font-size: 25px;
+	position: absolute;
+	top: -8px;
+	margin-left: 5px;
+}
+
+.livelog-analytics-header {
+	padding: 10px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.livelog-analytics-content {
+	padding: 10px;
+}
+
+.livelog-analytics-content:nth-child(even) {
+	background-color: #181e36;
 }

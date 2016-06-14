@@ -1,10 +1,5 @@
 package com.dlmorais.livelog;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-
 /**
  * DTO of a log line.
  *
@@ -17,10 +12,6 @@ public class LogLineDTO {
 
 	/** Line content. */
 	private String content;
-
-	/** Line date. */
-	@JsonFormat(shape = Shape.NUMBER)
-	private Date date;
 
 	/**
 	 * @return the line
@@ -50,21 +41,6 @@ public class LogLineDTO {
 	 */
 	public void setContent(final String content) {
 		this.content = content;
-	}
-
-	/**
-	 * @return the date
-	 */
-	public Date getDate() {
-		return this.date;
-	}
-
-	/**
-	 * @param date
-	 *            the date to set
-	 */
-	public void setDate(final Date date) {
-		this.date = date;
 	}
 
 }

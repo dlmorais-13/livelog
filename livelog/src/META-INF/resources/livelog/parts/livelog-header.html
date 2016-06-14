@@ -1,17 +1,22 @@
 <div class="row">
-	<div class="col-xs-4 livelog-header-filename">
-		<span ng-if="llapi.selected">
+	<div class="col-xs-8 livelog-header-filename">
+		<h4 ng-if="llapi.selected">
 			{{llapi.selected}}
-			<a class="glyphicon glyphicon-download" style="color: white;"
-				href="{{llapi.download()}}" target="_blank"></a>
-		</span>
-		<span ng-if="!llapi.selected" class="text-muted">no file selected</span>
+			<a class="glyphicon glyphicon-download" style="color: white;" href="{{llapi.download()}}" target="_blank"></a>
+			<a class="glyphicon glyphicon-sort-by-attributes-alt" style="color: white;" ng-click="llapi.loadAnalytics()" ng-if="!llapi.analyticsData"></a>
+			<a class="glyphicon glyphicon-list" style="color: white;" ng-click="llapi.closeAnalytics()" ng-if="llapi.analyticsData"></a>
+		</h4>
+		<h4 ng-if="!llapi.selected" class="text-muted">no file selected</h4>
 	</div>
 	
-	<div class="col-xs-8 text-right">
-		<button type="button" class="btn btn-success btn-xs" ng-model="llapi.polling" uib-btn-checkbox>
-			<span ng-if="llapi.polling">Stop polling</span>
-			<span ng-if="!llapi.polling">Start polling</span>
+	<div class="col-xs-4 text-right form-inline">
+		<div class="form-group">
+		    <input type="text" class="form-control input-sm" id="fileContentFilter" placeholder="Filter content (regex)" ng-model="llapi.contentFilter">
+		</div>
+	
+		<button type="button" class="btn btn-success btn-xs" ng-model="llapi.pollingEnabled" uib-btn-checkbox>
+			<span ng-if="llapi.pollingEnabled">Stop polling</span>
+			<span ng-if="!llapi.pollingEnabled">Start polling</span>
 		</button>
 		
 		<button type="button" class="btn btn-warning btn-xs" ng-model="$root.scrollLock" uib-btn-checkbox>

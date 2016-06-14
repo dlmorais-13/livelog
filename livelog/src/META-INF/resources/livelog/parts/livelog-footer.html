@@ -1,0 +1,7 @@
+<div class="row">
+	<a class="col-sm-3 livelog-grouping" ng-repeat="grouping in llapi.groupings"
+		ng-click="llapi.contentFilter = grouping.regex" style="color: {{grouping.color}} !important;">
+		<span class="livelog-grouping-name">{{grouping.name}}</span>
+		<span class="livelog-grouping-count">{{grouping.count}}</span>
+	</a>
+</div>

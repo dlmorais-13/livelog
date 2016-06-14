@@ -1,8 +1,13 @@
 <div>
 	<div class="list-group">
-		<a class="btn btn-link disabled">Available log files</a>
-		<a class="btn btn-link" ng-repeat="file in llapi.files"
-			ng-click="llapi.openFile(file)">
+		<h4 class="livelog-navigation-title">Available log files</h4>
+		
+		<div class="form-group">
+		    <input type="text" class="form-control input-sm" id="fileListFilter" placeholder="Filter files (regex)" ng-model="llapi.listFilter">
+		</div>
+		
+		<a class="btn btn-link" ng-repeat="file in llapi.files | filter : llapi.filterFiles"
+			ng-click="llapi.openFile(file)" uib-tooltip="{{file}}" tooltip-append-to-body="true">
 			{{file}}
 		</a>
 	</div>
