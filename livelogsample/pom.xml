@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.dlmorais</groupId>
 	<artifactId>livelogsample</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>LiveLog Sample WebAPP</name>
 	<dependencies>
@@ -13,7 +13,7 @@
 			<!-- Only by loading, the livelog will be available at /livelog. -->
 			<groupId>com.dlmorais</groupId>
 			<artifactId>livelog</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<!-- /LiveLog dependency -->
 

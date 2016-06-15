@@ -102,7 +102,7 @@ public class TailerAPI {
 				// Adds the DTO do return list and removes the first if it is
 				// bigger than the maximum size.
 				content.add(dto);
-				if (content.size() > numLines) {
+				if (fromLine == null && content.size() > numLines) {
 					content.remove(0);
 				}
 			});
