@@ -34,9 +34,18 @@ public class DownloadAPI {
 	 */
 	@GET
 	public Response get(@QueryParam("f") final String file) throws IOException {
-		final FileInputStream fis = new FileInputStream(new File(LiveLogConfig.getLogDir() + file));
+
+		final String logDir = LiveLogConfig.getLogDir();
+
+		final StringBuilder sb = new StringBuilder(logDir);
+		if (!logDir.endsWith("/") && !logDir.endsWith(File.pathSeparator)) {
+			sb.append(File.pathSeparator);
+		}
+		sb.append(file);
+
+		final FileInputStream fis = new FileInputStream(new File(sb.toString()));
 		return Response.ok(fis, MediaType.APPLICATION_OCTET_STREAM)
-				.header("content-disposition", "attachment; filename = " + file + ".zip").build();
+				.header("content-disposition", "attachment; filename = " + file).build();
 	}
 
 }

@@ -20,6 +20,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 /**
  * API to tail the log file.
@@ -110,7 +111,7 @@ public class TailerAPI {
 			return Response.ok(content).build();
 		} catch (final Exception e) {
 			System.err.println(e.getStackTrace());
-			return Response.noContent().build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		} finally {
 			if (lines != null) {
 				lines.close();
