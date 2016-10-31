@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Response;
 // TODO dlmorais - 13 de jun de 2016 - ZIP the log file before downloading,
 // preferably without writing to disk.
 @Path("/download")
+@RolesAllowed("")
 public class DownloadAPI {
 
 	/**

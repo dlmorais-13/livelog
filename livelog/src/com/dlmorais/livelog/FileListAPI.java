@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("/list-files")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("")
 public class FileListAPI {
 
 	/**

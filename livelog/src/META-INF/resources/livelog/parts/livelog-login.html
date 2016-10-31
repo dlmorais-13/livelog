@@ -1,0 +1,10 @@
+<div class="livelog-login-overlay"></div>
+<div class="livelog-login-modal" ng-if="llapi.loginEnabled">
+	<div class="form-group">
+		<label class="control-label">Livelog secure token for authentication</label>
+		<input type="password" placeholder="secure token" class="form-control" ng-model="llapi.secureToken" />
+	</div>
+	
+	<button class="btn btn-primary" ng-click="llapi.login()">Login</button>
+	<div class="clearfix"></div>
+</div>

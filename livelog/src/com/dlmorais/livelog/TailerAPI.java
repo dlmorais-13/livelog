@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
@@ -29,6 +30,7 @@ import javax.ws.rs.core.Response.Status;
  */
 @Path("/tail")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("")
 public class TailerAPI {
 
 	/** Injected request to store data to the session. */

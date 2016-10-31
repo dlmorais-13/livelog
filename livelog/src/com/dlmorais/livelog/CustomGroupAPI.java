@@ -2,6 +2,7 @@ package com.dlmorais.livelog;
 
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
  */
 @Path("/grouping")
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed("")
 public class CustomGroupAPI {
 
 	/** Injected request to store data to the session. */

@@ -3,6 +3,7 @@ package com.dlmorais.livelog;
 import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 /**
  * Jersey application configuration. <br>
@@ -18,6 +19,8 @@ public class Application extends ResourceConfig {
 	 */
 	public Application() {
 		this.packages(this.getClass().getPackage().getName());
+		this.register(RolesAllowedDynamicFeature.class);
+		this.register(SimpleAuthenticationFilter.class);
 	}
 
 }

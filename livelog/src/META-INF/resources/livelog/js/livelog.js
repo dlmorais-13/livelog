@@ -7,6 +7,11 @@ livelog.factory('ll.api', [
     	var service = {
     		baseUrl: $window.location.pathname,
 
+    		// If page is secured.
+    		secured: false,
+    		secureToken: '',
+    		loginEnabled: false,
+    		
     		// Flag to disable polling manually.
     		pollingEnabled: true,
     		
@@ -34,6 +39,31 @@ livelog.factory('ll.api', [
     		groupings: [],
     		// Analytic data.
     		analyticsData: false,
+    		
+    		// Verify if login enabled
+    		loginEnabled: function() {
+    			$http({
+    				method: 'GET',
+    				url: service.baseUrl + 'api/login/enabled'
+    			}).then(function(response) {
+    				service.loginEnabled = response.data == 'true';
+    				if (!service.loginEnabled) service.secured = true;
+    			});
+    		},
+    		
+    		// Tries to login at server.
+    		login: function() {
+    			$http({
+    				method: 'GET',
+    				url: service.baseUrl + 'api/login?t=' + service.secureToken
+    			}).then(function(response) {
+    				service.secured = true;
+    				service.listFiles();
+    			}, function(response) {
+    				service.secured = false;
+    				alert('Failed to validate secure token.');
+    			});
+    		},
     		
     		// List the available log files.
     		listFiles: function() {
@@ -179,6 +209,7 @@ livelog.controller('LivelogCtrl', [
 	'll.api', '$rootScope', '$scope', '$interval', 
 	function(llapi, $rootScope, $scope, $interval) {
 		$scope.llapi = llapi;
+		llapi.loginEnabled();
 		llapi.listFiles();
 		
 		window.llapi = llapi;
@@ -186,7 +217,7 @@ livelog.controller('LivelogCtrl', [
 		$interval(function() {
 			$rootScope.scrollLock || $('.livelog-content #mdVerticalContainer .md-virtual-repeat-scroller').animate({ scrollTop: Number.MAX_VALUE }, 0);
 		}, 100);
-		
+
 		$rootScope.keypress = function(e) {
 			var key = e.which || e.keyCode;
 			if (key == 145) {

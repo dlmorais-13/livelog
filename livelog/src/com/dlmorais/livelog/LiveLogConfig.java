@@ -28,14 +28,26 @@ public final class LiveLogConfig {
 	 *            name of the parameter.
 	 * @return {@link String} with the parameter's value.
 	 */
-	private static String getValueFromWebXml(final String name) {
+	private static String getValueFromWebXml(final String name, final boolean ignoreName) {
 		try {
 			final Context env = (Context) new InitialContext().lookup("java:comp/env");
 			return (String) env.lookup(name);
 		} catch (final NamingException e) {
-			e.printStackTrace();
+			if (!ignoreName) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
 			return null;
 		}
+	}
+
+	/**
+	 * Returns the defined secure token.
+	 *
+	 * @return {@link String} with the defined secure token.
+	 */
+	public static String getSecureToken() {
+		return LiveLogConfig.getValueFromWebXml("livelog-secure-token", true);
 	}
 
 	/**
@@ -45,7 +57,7 @@ public final class LiveLogConfig {
 	 */
 	public static String getLogDir() {
 		if (LiveLogConfig.LOG_DIR == null) {
-			LiveLogConfig.LOG_DIR = Optional.ofNullable(LiveLogConfig.getValueFromWebXml("livelog-logdir"));
+			LiveLogConfig.LOG_DIR = Optional.ofNullable(LiveLogConfig.getValueFromWebXml("livelog-logdir", false));
 		}
 		return LiveLogConfig.LOG_DIR.orElse(null);
 	}
@@ -57,7 +69,8 @@ public final class LiveLogConfig {
 	 */
 	public static String getContentRegex() {
 		if (LiveLogConfig.CONTENT_REGEX == null) {
-			LiveLogConfig.CONTENT_REGEX = Optional.ofNullable(LiveLogConfig.getValueFromWebXml("livelog-contentregex"));
+			LiveLogConfig.CONTENT_REGEX = Optional
+					.ofNullable(LiveLogConfig.getValueFromWebXml("livelog-contentregex", true));
 		}
 		return LiveLogConfig.CONTENT_REGEX.orElse(null);
 	}
@@ -72,9 +85,9 @@ public final class LiveLogConfig {
 
 		int counter = 1;
 		String name = null;
-		while ((name = LiveLogConfig.getValueFromWebXml("livelog-customgroup-" + counter + "-name")) != null) {
-			final String color = LiveLogConfig.getValueFromWebXml("livelog-customgroup-" + counter + "-color");
-			final String regex = LiveLogConfig.getValueFromWebXml("livelog-customgroup-" + counter + "-regex");
+		while ((name = LiveLogConfig.getValueFromWebXml("livelog-customgroup-" + counter + "-name", true)) != null) {
+			final String color = LiveLogConfig.getValueFromWebXml("livelog-customgroup-" + counter + "-color", false);
+			final String regex = LiveLogConfig.getValueFromWebXml("livelog-customgroup-" + counter + "-regex", false);
 
 			if (regex != null) {
 				final CustomGroupDTO customGroupDTO = new CustomGroupDTO(name, regex);
