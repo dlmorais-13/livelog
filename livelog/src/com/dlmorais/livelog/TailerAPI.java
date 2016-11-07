@@ -1,5 +1,6 @@
 package com.dlmorais.livelog;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -67,8 +68,15 @@ public class TailerAPI {
 
 		Stream<String> lines = null;
 		try {
+			final String logDir = LiveLogConfig.getLogDir();
+			final StringBuilder sb = new StringBuilder(logDir);
+			if (!logDir.endsWith("/") && !logDir.endsWith(File.separator)) {
+				sb.append(File.separator);
+			}
+			sb.append(file);
+
 			// Get all the lines from log into a stream.
-			lines = Files.lines(Paths.get(LiveLogConfig.getLogDir() + file));
+			lines = Files.lines(Paths.get(sb.toString()));
 
 			// Defines the start line.
 			long startLine = 0;
@@ -112,7 +120,7 @@ public class TailerAPI {
 
 			return Response.ok(content).build();
 		} catch (final Exception e) {
-			System.err.println(e.getStackTrace());
+			e.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		} finally {
 			if (lines != null) {

@@ -40,8 +40,8 @@ public class DownloadAPI {
 		final String logDir = LiveLogConfig.getLogDir();
 
 		final StringBuilder sb = new StringBuilder(logDir);
-		if (!logDir.endsWith("/") && !logDir.endsWith(File.pathSeparator)) {
-			sb.append(File.pathSeparator);
+		if (!logDir.endsWith("/") && !logDir.endsWith(File.separator)) {
+			sb.append(File.separator);
 		}
 		sb.append(file);
 
