@@ -24,10 +24,20 @@ a {
 	text-align: center;
 }
 
+.livelog-navigation .list-group {
+	width: 100%;
+}
+
 .livelog-navigation .list-group a {
-	width: 200px;
+	width: 100%;
 	text-align: left;
 	word-break: break-all;
+	display: block;
+	word-wrap: break-word;
+	padding: 0;
+	white-space: inherit;
+	border-bottom: 1px solid #555;
+	margin-top: 5px;
 }
 
 .livelog-analysis {

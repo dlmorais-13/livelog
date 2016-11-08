@@ -1,5 +1,6 @@
 package com.dlmorais.livelog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +61,23 @@ public final class LiveLogConfig {
 			LiveLogConfig.LOG_DIR = Optional.ofNullable(LiveLogConfig.getValueFromWebXml("livelog-logdir", false));
 		}
 		return LiveLogConfig.LOG_DIR.orElse(null);
+	}
+
+	/**
+	 * Returns the path to a log file.
+	 *
+	 * @param fileName
+	 *            Name of the file.
+	 * @return {@link String} with the path to the log file.
+	 */
+	public static String getLogFilePath(final String fileName) {
+		final String logDir = LiveLogConfig.getLogDir();
+		final StringBuilder sb = new StringBuilder(logDir);
+		if (!logDir.endsWith("/") && !logDir.endsWith(File.separator)) {
+			sb.append(File.separator);
+		}
+		sb.append(fileName);
+		return sb.toString();
 	}
 
 	/**

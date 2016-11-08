@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-xs-8 livelog-header-filename">
+	<div class="col-xs-7 livelog-header-filename">
 		<h4 ng-if="llapi.selected">
 			{{llapi.selected}}
 			<a class="glyphicon glyphicon-download" style="color: white;" href="{{llapi.download()}}" target="_blank"></a>
@@ -9,7 +9,7 @@
 		<h4 ng-if="!llapi.selected" class="text-muted">no file selected</h4>
 	</div>
 	
-	<div class="col-xs-4 text-right form-inline">
+	<div class="col-xs-5 text-right form-inline">
 		<div class="form-group">
 		    <input type="text" class="form-control input-sm" id="fileContentFilter" placeholder="Filter content (regex)" ng-model="llapi.contentFilter">
 		</div>

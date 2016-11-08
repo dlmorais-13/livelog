@@ -77,13 +77,30 @@ livelog.factory('ll.api', [
     		
     		// Function to filter the files to list.
     		filterFiles: function(name) {
-    			return !!name.match(service.listFilter);
+    			try {
+    				return !!name.match(service.listFilter);
+    			} catch(e) {
+    				if (!e.message.match("regular expression")) throw e;
+    			}
     		},
     		
-    		// Function to filter the files to list.
+    		// Function to filter the file content.
     		filterContent: function(line) {
+    			try {
     			return !!line.content.match(service.contentFilter)
     				|| !!("" + line.line).match(service.contentFilter);
+    			} catch(e) {
+    				if (!e.message.match("regular expression")) throw e;
+    			}
+    		},
+    		
+    		// Function to filter the file analytic content.
+    		filterAnalytics: function(ad) {
+    			try {
+    				return !!ad.pattern.match(service.contentFilter);
+    			} catch(e) {
+    				if (!e.message.match("regular expression")) throw e;
+    			}
     		},
     		
     		// Function that returns an object with line color, if it matches an grouping.

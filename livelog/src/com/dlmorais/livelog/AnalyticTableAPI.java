@@ -43,12 +43,17 @@ public class AnalyticTableAPI {
 			final Pattern pattern = Pattern.compile(LiveLogConfig.getContentRegex());
 
 			// Get all the lines from log into a stream.
-			lines = Files.lines(Paths.get(LiveLogConfig.getLogDir() + file));
+			lines = Files.lines(Paths.get(LiveLogConfig.getLogFilePath(file)));
 			lines.forEach(l -> {
 				final Matcher matcher = pattern.matcher(l);
 				if (matcher.find()) {
-					final String group = matcher.group(1);
-					analysis.merge(group, new AnalyticDataDTO(group, 1L), (v1, v2) -> {
+					final StringBuilder group = new StringBuilder();
+					for (int i = 1; i <= matcher.groupCount(); i++) {
+						group.append(matcher.group(i)).append(" ");
+					}
+
+					final String groupStr = group.toString();
+					analysis.merge(groupStr, new AnalyticDataDTO(groupStr, 1L), (v1, v2) -> {
 						v1.increment();
 						return v1;
 					});
