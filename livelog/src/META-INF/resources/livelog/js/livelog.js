@@ -67,9 +67,14 @@ livelog.factory('ll.api', [
     		
     		// List the available log files.
     		listFiles: function() {
+    			$http({
+    				method: 'GET', url: service.baseUrl + 'api/list-files/default-filter'
+    			}).then(function(response) {
+    				service.listFilter = response.data;
+    			});
+    			
     			$http({ 
-    				method: 'GET', 
-    				url: service.baseUrl + 'api/list-files' 
+    				method: 'GET', url: service.baseUrl + 'api/list-files' 
     			}).then(function(response) {
     				service.files = response.data;
     			});
@@ -105,10 +110,10 @@ livelog.factory('ll.api', [
     		
     		// Function that returns an object with line color, if it matches an grouping.
     		// The first group matched will return.
-    		getLineStyle: function(line) {
+    		getLineStyle: function(text) {
     			for (var g in service.groupings) {
     				var grouping = service.groupings[g];
-    				if (!!line.content.match(grouping.regex)) {
+    				if (!!text.match(grouping.regex)) {
     					return { "color": grouping.color };
     				}
     			}

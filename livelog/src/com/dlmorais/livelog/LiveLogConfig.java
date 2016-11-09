@@ -22,6 +22,9 @@ public final class LiveLogConfig {
 	/** Cache for the livelog-contentregex web.xml parameter. */
 	public static Optional<String> CONTENT_REGEX = null;
 
+	/** Cache for the livelog-defaultfilefilter web.xml parameter. */
+	public static Optional<String> DEFAULT_FILE_FILTER = null;
+
 	/**
 	 * Gets a {@link String} value from web.xml.
 	 *
@@ -78,6 +81,19 @@ public final class LiveLogConfig {
 		}
 		sb.append(fileName);
 		return sb.toString();
+	}
+
+	/**
+	 * Returns the default file filter for log files list.
+	 *
+	 * @return {@link String} with the default file filter for log files list.
+	 */
+	public static String getDefaultFileFilter() {
+		if (LiveLogConfig.DEFAULT_FILE_FILTER == null) {
+			LiveLogConfig.DEFAULT_FILE_FILTER = Optional
+					.ofNullable(LiveLogConfig.getValueFromWebXml("livelog-defaultfilefilter", true));
+		}
+		return LiveLogConfig.DEFAULT_FILE_FILTER.orElse(null);
 	}
 
 	/**

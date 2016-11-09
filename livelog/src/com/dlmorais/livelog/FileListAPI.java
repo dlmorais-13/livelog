@@ -36,4 +36,17 @@ public class FileListAPI {
 		return Response.ok(Arrays.stream(files).map(f -> f.getName()).collect(Collectors.toList())).build();
 	}
 
+	/**
+	 * Returns a {@link Response} containing a {@link String} with the default
+	 * file list filter.
+	 *
+	 * @return {@link Response} with {@link String} with default file list
+	 *         filter.
+	 */
+	@GET
+	@Path("/default-filter")
+	public Response getDefaultFilter() {
+		return Response.ok(LiveLogConfig.getDefaultFileFilter(), MediaType.TEXT_PLAIN).build();
+	}
+
 }
