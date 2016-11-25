@@ -5,7 +5,7 @@ livelog.factory('ll.api', [
     '$http', '$window', '$timeout',
 	function($http, $window, $timeout) {
     	var service = {
-    		baseUrl: $window.location.pathname,
+    		baseUrl: $window.location.pathname.replace(/\/index.html/, '/'),
 
     		// If page is secured.
     		secured: false,
