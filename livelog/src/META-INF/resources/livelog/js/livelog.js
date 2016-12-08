@@ -122,8 +122,6 @@ livelog.factory('ll.api', [
     		
     		// Open a log file.
     		openFile: function(file) {
-    			// TODO dlmorais - 13 de jun de 2016 - bug if a new file is opened and there is a live polling.
-    			
     			// If there is a timeout active, cancels it.
     			!service.pollingTimeout || $timeout.cancel(service.pollingTimeout);
     			
