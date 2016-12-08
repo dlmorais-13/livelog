@@ -10,12 +10,12 @@ This project exists to make it very simple enable tailing on log files in Java w
 
 ## Usage
 
-* Add project to pom.xml
+* Add livelog to your project (sample below if using maven).
 ```xml
 <dependency>
   <groupId>com.dlmorais</groupId>
   <artifactId>livelog</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.8</version>
 </dependency>
 ```
 * Configure your web.xml with log folder.
@@ -30,9 +30,28 @@ This project exists to make it very simple enable tailing on log files in Java w
 
 ## Additional configuration
 
-* To enable a auxiliar page that groups the contents of the log file using a regex.
-    * LiveLog will group by the first regex group present. This grouping is mandatory.
+* To secure livelog page with a token
 ```xml
+<env-entry>
+  <env-entry-name>livelog-secure-token</env-entry-name>
+  <env-entry-type>java.lang.String</env-entry-type>
+  <env-entry-value>$up3r.$3cR3t.t0k3n</env-entry-value>
+</env-entry>
+```
+
+* To define a custom filter that will be applied to file search
+```xml
+<env-entry>
+  <env-entry-name>livelog-defaultfilefilter</env-entry-name>
+  <env-entry-type>java.lang.String</env-entry-type>
+  <env-entry-value>myappname\..*\.log</env-entry-value>
+</env-entry>
+```
+
+* To enable an auxiliary page that groups the contents of the log file using a regex.
+    * LiveLog will group by all regex groups present. At least one grouping is mandatory.
+```xml
+<!-- This sample groups each line ignoring the date at the start of line. -->
 <env-entry>
   <env-entry-name>livelog-contentregex</env-entry-name>
   <env-entry-type>java.lang.String</env-entry-type>
@@ -52,23 +71,22 @@ This project exists to make it very simple enable tailing on log files in Java w
 </env-entry>
     
 <env-entry>
-	<description>Defines the custom group 1 color (CSS syntax) [Optional: default "gray"]</description>
-	<env-entry-name>livelog-customgroup-1-color</env-entry-name>
-	<env-entry-type>java.lang.String</env-entry-type>
-	<env-entry-value>red</env-entry-value>
+  <description>Defines the custom group 1 color (CSS syntax) [Optional: default "gray"]</description>
+  <env-entry-name>livelog-customgroup-1-color</env-entry-name>
+  <env-entry-type>java.lang.String</env-entry-type>
+  <env-entry-value>red</env-entry-value>
 </env-entry>
     
 <env-entry>
-	<description>Defines the custom group 1 regex</description>
-	<env-entry-name>livelog-customgroup-1-regex</env-entry-name>
-	<env-entry-type>java.lang.String</env-entry-type>
-	<env-entry-value>^.* - .* - (FATAL|CRITICAL) :: .*$</env-entry-value>
+  <description>Defines the custom group 1 regex</description>
+  <env-entry-name>livelog-customgroup-1-regex</env-entry-name>
+  <env-entry-type>java.lang.String</env-entry-type>
+  <env-entry-value>^.* - .* - (FATAL|CRITICAL) :: .*$</env-entry-value>
 </env-entry>
 ```
 
 ## Sample APP
 Repository contains a sample app that generates a log file at ```${catalina.home}/logs/``` folder.
-
 
 ## License
 Apache 2.0
