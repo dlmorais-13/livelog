@@ -91,4 +91,4 @@ Repository contains a sample app that generates a log file at ```${catalina.home
 ## License
 Apache 2.0
 
-Fell free to use anywhere and contribute!
+Feel free to use anywhere and contribute!
